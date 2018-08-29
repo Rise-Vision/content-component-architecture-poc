@@ -1,4 +1,5 @@
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
+import '@polymer/polymer/lib/elements/dom-if.js';
 
 class RiseImage extends PolymerElement {
   static get properties () {
@@ -16,13 +17,20 @@ class RiseImage extends PolymerElement {
     const element = this;
 
     this.addEventListener('url-updated', event => {
-      console.log('here:' + event.detail.url);
+      console.log(event.detail.url);
       element.url = event.detail.url;
     });
   }
 
   static get template() {
-    return html`<p>Bye [[url]]</p>`;
+    return html`
+      <template is="dom-if" if="[[url]]">
+        <img src=[[url]] width="50" height="50">
+      </template>
+      <template is="dom-if" if="[[!url]]">
+        <p>Downloading image, please wait...</p>
+      </template>
+    `;
   }
 }
 
