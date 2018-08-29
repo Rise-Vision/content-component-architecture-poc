@@ -15,8 +15,10 @@ class RiseImage extends PolymerElement {
     super();
 
     const element = this;
+    const targetId = this.getAttribute('for');
+    const target = targetId ? document.querySelector(`#${targetId}`) : this;
 
-    this.addEventListener('url-updated', event => {
+    target.addEventListener('url-updated', event => {
       console.log(event.detail.url);
       element.url = event.detail.url;
     });

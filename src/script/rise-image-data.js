@@ -32,10 +32,6 @@ class RiseImageData extends PolymerElement {
 
     this.dispatchEvent(event);
   }
-
-  static get template() {
-    return html`<p>Hello [[file]] [[url]]</p>`;
-  }
 }
 
 customElements.define('rise-image-data', RiseImageData);
