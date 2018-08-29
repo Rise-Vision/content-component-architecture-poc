@@ -18,7 +18,6 @@ class RiseImageData extends PolymerElement {
     super();
 
     this.file = this.getAttribute('file');
-    this.url = `/content/${ this.file }`;
 
     setInterval(() => this.toggleImage(this), 5000);
   }
@@ -27,7 +26,11 @@ class RiseImageData extends PolymerElement {
     element.url =
       `/content/${ element.url.endsWith( 'logo.svg' ) ? element.file : 'logo.svg' }`;
 
-    console.log( element.url );
+    const event = new CustomEvent('url-updated', {
+      bubbles: true, composed: true, detail: { url: element.url }
+    });
+
+    this.dispatchEvent(event);
   }
 
   static get template() {
