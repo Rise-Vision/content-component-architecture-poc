@@ -1,6 +1,6 @@
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 
-class ImageData extends PolymerElement {
+class RiseImageData extends PolymerElement {
   static get properties () {
     return {
       file: {
@@ -26,4 +26,4 @@ class ImageData extends PolymerElement {
   }
 }
 
-customElements.define('image-data', ImageData);
+customElements.define('rise-image-data', RiseImageData);
