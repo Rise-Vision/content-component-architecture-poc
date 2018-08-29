@@ -5,12 +5,8 @@
   "repository": "https://github.com/Rise-vision/content-component-architecture-poc.git",
   "author": "Santiago Arriaga",
   "license": "GPL-3",
-  "scripts": {
-    "start": "http-server"
-  },
   "dependencies": {
     "@polymer/polymer": "latest",
-    "@webcomponents/webcomponentsjs": "latest",
-    "http-server": "^0.11.1"
+    "@webcomponents/webcomponentsjs": "latest"
   }
 }

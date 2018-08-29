@@ -3,6 +3,10 @@ import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 class ImageData extends PolymerElement {
   static get properties () {
     return {
+      file: {
+        type: String,
+        value: ''
+      },
       url: {
         type: String,
         value: ''
@@ -13,11 +17,12 @@ class ImageData extends PolymerElement {
   constructor() {
     super();
 
-    this.url = 'content.png'
+    this.file = this.hasAttribute('file') ? this.getAttribute('file') : 'logo.svg';
+    this.url = `/content/${ this.file }`;
   }
 
   static get template() {
-    return html`<p>Hello World</p>`;
+    return html`<p>Hello [[file]] [[url]]</p>`;
   }
 }
 
