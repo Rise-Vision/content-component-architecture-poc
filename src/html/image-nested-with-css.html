@@ -1,0 +1,55 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="../../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js" async></script>
+    <script src="../script/rise-image.js" type="module" async></script>
+    <script src="../script/rise-image-data.js" type="module" async></script>
+
+    <style>
+      html {
+        --image-height: 100px;
+        --image-width: 100px;
+      }
+
+      #image03 {
+        --image-height: 150px;
+        --image-width: 150px;
+      }
+    </style>
+  </head>
+  <body>
+    <rise-image id="image01">
+      <rise-image-data file="presentations-icon.png"></rise-image-data>
+    </rise-image>
+    <rise-image id="image02">
+      <rise-image-data file="displays-icon.png"></rise-image-data>
+    </rise-image>
+    <rise-image id="image03">
+      <rise-image-data file="schedules-icon.png"></rise-image-data>
+    </rise-image>
+
+    <hr>
+
+    <textarea cols="80" rows="15">
+<style>
+  html {
+    --image-height: 100px;
+    --image-width: 100px;
+  }
+
+  #image03 {
+    --image-height: 150px;
+    --image-width: 150px;
+  }
+</style>
+
+<rise-image id="image01">
+  <rise-image-data file="presentations-icon.png"></rise-image-data>
+</rise-image>
+    </textarea>
+  </body>
+</html>
