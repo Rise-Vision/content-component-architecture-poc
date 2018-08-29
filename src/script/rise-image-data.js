@@ -17,8 +17,17 @@ class RiseImageData extends PolymerElement {
   constructor() {
     super();
 
-    this.file = this.hasAttribute('file') ? this.getAttribute('file') : 'logo.svg';
+    this.file = this.getAttribute('file');
     this.url = `/content/${ this.file }`;
+
+    setInterval(() => this.toggleImage(this), 5000);
+  }
+
+  toggleImage(element) {
+    element.url =
+      `/content/${ element.url.endsWith( 'logo.svg' ) ? element.file : 'logo.svg' }`;
+
+    console.log( element.url );
   }
 
   static get template() {
