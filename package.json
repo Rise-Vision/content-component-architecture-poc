@@ -8,5 +8,9 @@
   "dependencies": {
     "@polymer/polymer": "latest",
     "@webcomponents/webcomponentsjs": "latest"
+  },
+  "devDependencies": {
+    "wct-browser-legacy": "^1.0.1",
+    "web-component-tester": "^6.8.0"
   }
 }

@@ -13,3 +13,19 @@ polymer serve
 `
 
 Then open http://127.0.0.1:8081/ in browser.
+
+## Test instructions
+
+Reference: https://www.polymer-project.org/3.0/docs/tools/tests
+
+Run:
+
+`
+polymer test
+`
+
+NOTE: Not sure if this global install is necessary first:
+
+`
+npm install -g web-component-tester
+`
