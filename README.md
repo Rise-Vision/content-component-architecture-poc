@@ -23,3 +23,17 @@ Run using the NPM flag:
 `
 polymer test --npm
 `
+
+## Build instructions
+
+Run:
+
+`
+polymer build --name prod
+`
+
+Which outputs to build/ directory.
+
+The build can be customized in the polymer.json file.
+
+Reference: https://www.polymer-project.org/3.0/docs/tools/polymer-json
