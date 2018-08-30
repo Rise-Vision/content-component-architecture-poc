@@ -4,6 +4,10 @@ import '@polymer/polymer/lib/elements/dom-if.js';
 class RiseImage extends PolymerElement {
   static get properties () {
     return {
+      file: {
+        type: String,
+        value: ''
+      },
       url: {
         type: String,
         value: ''
@@ -15,7 +19,9 @@ class RiseImage extends PolymerElement {
     super();
 
     const element = this;
+    this.file = this.getAttribute('file');
     const targetId = this.getAttribute('for');
+
     const target = targetId ? document.querySelector(`#${targetId}`) : this;
 
     target.addEventListener('url-updated', event => {
@@ -33,6 +39,9 @@ class RiseImage extends PolymerElement {
           @apply --rise-image;
         }
       </style>
+      <template is="dom-if" if="[[file]]">
+        <rise-image-data file=[[file]]></rise-image-data>
+      </template>
       <template is="dom-if" if="[[url]]">
         <img src=[[url]]>
       </template>
