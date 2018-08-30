@@ -23,9 +23,3 @@ Run using the NPM flag:
 `
 polymer test --npm
 `
-
-NOTE: Not sure if this global install is necessary first:
-
-`
-npm install -g web-component-tester
-`
