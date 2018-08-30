@@ -22,15 +22,13 @@
     </style>
   </head>
   <body>
-    <rise-image id="image01">
-      <rise-image-data file="presentations-icon.png"></rise-image-data>
-    </rise-image>
-    <rise-image id="image02">
-      <rise-image-data file="displays-icon.png"></rise-image-data>
-    </rise-image>
-    <rise-image id="image03">
-      <rise-image-data file="schedules-icon.png"></rise-image-data>
-    </rise-image>
+    <rise-image-data id="data01" file="presentations-icon.png"></rise-image-data>
+    <rise-image-data id="data02" file="displays-icon.png"></rise-image-data>
+    <rise-image-data id="data03" file="schedules-icon.png"></rise-image-data>
+
+    <rise-image id="image01" for="data01"></rise-image>
+    <rise-image id="image02" for="data02"></rise-image>
+    <rise-image id="image03" for="data03"></rise-image>
 
     <hr>
 
@@ -47,9 +45,8 @@
   }
 </style>
 
-<rise-image id="image01">
-  <rise-image-data file="presentations-icon.png"></rise-image-data>
-</rise-image>
+<rise-image-data id="data01" file="presentations-icon.png"></rise-image-data>
+<rise-image id="image01" for="data01"></rise-image>
     </textarea>
   </body>
 </html>

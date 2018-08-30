@@ -26,8 +26,6 @@
 
 <script>
   document.querySelector('#data01').addEventListener('url-updated', event => {
-    console.log(event.detail.url);
-
     document.querySelector('#image01').innerHTML = `
       <img src=${event.detail.url} width="50" height="50">
     `;
