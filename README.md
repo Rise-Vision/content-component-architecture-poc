@@ -18,10 +18,10 @@ Then open http://127.0.0.1:8081/ in browser.
 
 Reference: https://www.polymer-project.org/3.0/docs/tools/tests
 
-Run:
+Run using the NPM flag:
 
 `
-polymer test
+polymer test --npm
 `
 
 NOTE: Not sure if this global install is necessary first:

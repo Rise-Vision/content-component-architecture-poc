@@ -7,7 +7,6 @@
 
     <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
     <script src="../node_modules/wct-browser-legacy/browser.js"></script>
-    <script src="../src/script/rise-image.js" type="module"></script>
     <script src="../src/script/rise-image-data.js" type="module"></script>
   </head>
   <body>
@@ -23,8 +22,16 @@
 
         setup(() => element = fixture('fixture01'));
 
-        test('file property set', () => {
+        test('it should have a property file', () => {
           assert.equal(element.file, 'presentations-icon.png');
+        });
+
+        test('it should send an URL updated event', done => {
+          element.addEventListener('url-updated', event => {
+            assert(event.detail.url);
+
+            done();
+          });
         });
       });
     </script>
