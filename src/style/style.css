@@ -1,0 +1,7 @@
+html {
+  --image-height: 100px;
+  --image-width: 100px; }
+
+#image03 {
+  --image-height: 200px;
+  --image-width: 200px; }
