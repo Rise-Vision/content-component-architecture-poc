@@ -1,0 +1,39 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+    <script src="../src/script/rise-image-data.js" type="module"></script>
+  </head>
+  <body>
+    <test-fixture id="fixture01">
+      <template>
+        <rise-image-data file="presentations-icon.png"></rise-image-data>
+      </template>
+    </test-fixture>
+
+    <script>
+      suite('rise-image', () => {
+        let element;
+
+        setup(() => element = fixture('fixture01'));
+
+        test('it should have a property file', () => {
+          assert.equal(element.file, 'presentations-icon.png');
+        });
+
+        test('it should send an URL updated event', done => {
+          element.addEventListener('url-updated', event => {
+            assert(event.detail.url);
+
+            done();
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+$size: 100px;
+
+html {
+  --image-height: #{$size};
+  --image-width: #{$size};
+}
+
+#image03 {
+  --image-height: #{$size * 2};
+  --image-width: #{$size * 2};
+}

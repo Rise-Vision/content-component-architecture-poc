@@ -1,0 +1,19 @@
+{
+  "name": "content-component-architecture-poc",
+  "version": "0.0.1",
+  "main": "src/entry.js",
+  "repository": "https://github.com/Rise-vision/content-component-architecture-poc.git",
+  "author": "Santiago Arriaga <santiago.noguez@risevision.com>",
+  "license": "GPL-3.0+",
+  "scripts": {
+    "compile-sass": "node-sass src/style/style.scss src/style/style.css"
+  },
+  "dependencies": {
+    "@polymer/polymer": "^3.0.5",
+    "@webcomponents/webcomponentsjs": "^2.1.1"
+  },
+  "devDependencies": {
+    "node-sass": "^4.9.3",
+    "wct-browser-legacy": "^1.0.1"
+  }
+}
