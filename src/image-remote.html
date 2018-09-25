@@ -1,0 +1,27 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js" async></script>
+  </head>
+  <body>
+    <rise-data-image></rise-data-image>
+
+    <hr>
+
+    <script>
+      fetch('https://storage.googleapis.com/widgets.risevision.com/staging/components/rise-data-image/2018.09.25.14.30/rise-data-image.js')
+      .then(response => response.text())
+      .then(code => {
+        let script = document.createElement('script');
+        script.type = 'module';
+        script.append(code);
+
+        document.body.appendChild(script);
+      });
+    </script>
+  </body>
+</html>
