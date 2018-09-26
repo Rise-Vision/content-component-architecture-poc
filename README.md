@@ -64,5 +64,5 @@ previous page:
 viewerurl=http://localhost:8999/src/image-remote-transpiled.html
 `
 
-Run player-electron. The component should run OK, event though the player will
+Run player-electron. The component should run OK, even though the player will
 restart every 3 minutes as there is no viewer available.
