@@ -1,4 +1,5 @@
 {
+  "entrypoint": "src/image-remote-transpiled.html",
   "sources": [
     "content/**/*",
     "src/**/*"
@@ -9,10 +10,13 @@
   ],
   "builds": [
     {
-      "name": "prod",
-      "preset": "es6-bundled",
-      "js": {"minify": true},
-      "css": {"minify": true}
+      "name": "es5",
+      "preset": "es5-bundled",
+      "addServiceWorker": false,
+      "html": { "minify": true },
+      "css": { "minify": true },
+      "js": { "minify": true },
+      "bundle": { "stripComments": true }
     }
   ],
   "moduleResolution": "node",

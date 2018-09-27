@@ -1,0 +1,44 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+    <script type="module">
+      // this and the following block are needed at build time to force the creation of the shared bundle script
+      import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
+    </script>
+    <script type="module">
+      import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
+    </script>
+  </head>
+  <body>
+    <rise-data-image id="rise-data-image-01"></rise-data-image>
+
+    <div id="image01">
+      <p>Downloading image, please wait...</p>
+    </div>
+
+    <hr>
+
+    <script>
+      fetch('https://storage.googleapis.com/widgets.risevision.com/staging/components/rise-data-image/2018.09.26.17.21/rise-data-image.js')
+      .then(response => response.text())
+      .then(code => {
+        let script = document.createElement('script');
+        script.append(code);
+
+        document.body.appendChild(script);
+
+        document.querySelector('#rise-data-image-01').addEventListener('url-updated', event => {
+          document.querySelector('#image01').innerHTML = `
+            <img src=${event.detail.url} width="50" height="50">
+          `;
+        });
+      });
+    </script>
+  </body>
+</html>
