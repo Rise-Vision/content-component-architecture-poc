@@ -51,7 +51,8 @@ python -m SimpleHTTPServer 8999
 `
 
 Then open http://localhost:8999/src/image-remote-transpiled.html in a browser.
-A Rise Vision logo should appear after 5 seconds.
+The image referenced as the file attribute in the rise-image tag should appear
+after 5 seconds.
 
 ## Run in Player Electron instructions
 
