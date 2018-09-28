@@ -14,6 +14,45 @@
     <script type="module">
       import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
     </script>
+    <script src="script/rise-player-configuration.js"></script>
+    <script src="script/rise-local-messaging.js"></script>
+    <script>
+      function connectionHandler(event) {
+        const connected = RisePlayerConfiguration.LocalMessaging.isConnected();
+
+        console.log(`connected: ${ connected }`);
+
+        if (connected) {
+          window.removeEventListener( "rise-local-messaging-connection", connectionHandler );
+
+          RisePlayerConfiguration.LocalMessaging.receiveMessages(message => {
+            console.log(JSON.stringify(message));
+          });
+
+          setInterval(() => {
+            console.log('broadcasting');
+
+            RisePlayerConfiguration.LocalMessaging.broadcastMessage({
+              topic: "clientlist-request"
+            });
+
+            RisePlayerConfiguration.LocalMessaging.broadcastMessage({
+              topic: "watch",
+              filePath: "risemedialibrary-30007b45-3df0-4c7b-9f7f-7d8ce6443013/logo.png"
+            });
+          }, 30000);
+        }
+      }
+
+      window.addEventListener( "rise-local-messaging-connection", connectionHandler);
+
+      // electron / websocket or chromeos / window
+      RisePlayerConfiguration.configure({}, {
+        player: "electron",
+        connectionType: "websocket",
+        detail: { serverUrl: "http://localhost:8080" }
+      });
+    </script>
   </head>
   <body>
     <rise-data-image id="rise-data-image-01"
