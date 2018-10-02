@@ -14,10 +14,12 @@
     <script type="module">
       import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
     </script>
-    <script src="https://storage.googleapis.com/widgets.risevision.com/staging/common/rise-player-configuration.js"></script>
-    <script src="https://storage.googleapis.com/widgets.risevision.com/staging/common/rise-local-messaging.js"></script>
-    <script src="https://storage.googleapis.com/widgets.risevision.com/staging/common/rise-local-storage.js"></script>
+    <script src="http://widgets.risevision.com/staging/common/rise-player-configuration.js"></script>
+    <script src="http://widgets.risevision.com/staging/common/rise-local-messaging.js"></script>
+    <script src="http://widgets.risevision.com/staging/common/rise-local-storage.js"></script>
     <script>
+      console.log("configuring");
+
       // electron / websocket or chromeos / window
       RisePlayerConfiguration.configure({}, {
         player: "electron",
@@ -38,7 +40,7 @@
     <hr>
 
     <script>
-      fetch('https://storage.googleapis.com/widgets.risevision.com/staging/components/rise-data-image/2018.10.02.15.32/rise-data-image.js')
+      fetch('http://widgets.risevision.com/staging/components/rise-data-image/2018.10.02.15.32/rise-data-image.js')
       .then(response => response.text())
       .then(code => {
         let script = document.createElement('script');
