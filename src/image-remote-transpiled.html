@@ -14,10 +14,33 @@
     <script type="module">
       import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
     </script>
+    <script src="http://widgets.risevision.com/staging/common/2018.10.03.10.00/rise-player-configuration.js"></script>
+    <script src="http://widgets.risevision.com/staging/common/2018.10.03.10.00/rise-local-messaging.js"></script>
+    <script src="http://widgets.risevision.com/staging/common/2018.10.03.10.00/rise-helpers.js"></script>
+    <script src="http://widgets.risevision.com/staging/common/2018.10.03.10.00/rise-local-storage.js"></script>
+    <script>
+      if (document.domain.indexOf("localhost") === -1) {
+        try {
+          document.domain = "risevision.com";
+        } catch (err) {
+          // can't set document.domain, risevision.com not an accepted suffix of current document domain
+          console.log("document.domain can't be set", err);
+        }
+      }
+
+      console.log("configuring");
+
+      // electron / websocket or chromeos / window
+      RisePlayerConfiguration.configure({}, {
+        player: "electron",
+        connectionType: "websocket",
+        detail: { serverUrl: "http://localhost:8080" }
+      });
+    </script>
   </head>
   <body>
     <rise-data-image id="rise-data-image-01"
-      file="https://storage.googleapis.com/risemedialibrary-30007b45-3df0-4c7b-9f7f-7d8ce6443013/logo.png">
+      file="risemedialibrary-30007b45-3df0-4c7b-9f7f-7d8ce6443013/logo.png">
     </rise-data-image>
 
     <div id="image01">
@@ -27,7 +50,7 @@
     <hr>
 
     <script>
-      fetch('https://storage.googleapis.com/widgets.risevision.com/staging/components/rise-data-image/2018.09.27.15.56/rise-data-image.js')
+      fetch('http://widgets.risevision.com/staging/components/rise-data-image/2018.10.03.16.20/rise-data-image.js')
       .then(response => response.text())
       .then(code => {
         let script = document.createElement('script');
@@ -35,9 +58,18 @@
 
         document.body.appendChild(script);
 
-        document.querySelector('#rise-data-image-01').addEventListener('url-updated', event => {
+        // all of the following will be implemented later by a rise-image component
+        let image01 = document.querySelector('#rise-data-image-01');
+        image01.addEventListener('image-status-updated', event => {
+          var content = event.detail.status === 'CURRENT' ?
+            `<img src=${ event.detail.url } width="50" height="50">` :
+            `<p>image not available, status: ${ event.detail.status }</p>`
+
+          document.querySelector('#image01').innerHTML = content;
+        });
+        image01.addEventListener('image-error', event => {
           document.querySelector('#image01').innerHTML = `
-            <img src=${event.detail.url} width="50" height="50">
+            <p>image error: ${ event.detail.errorMessage }</p>
           `;
         });
       })
