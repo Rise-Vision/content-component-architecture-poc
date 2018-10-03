@@ -18,6 +18,15 @@
     <script src="http://widgets.risevision.com/staging/common/rise-local-messaging.js"></script>
     <script src="http://widgets.risevision.com/staging/common/rise-local-storage.js"></script>
     <script>
+      if (document.domain.indexOf("localhost") === -1) {
+        try {
+          document.domain = "risevision.com";
+        } catch (err) {
+          // can't set document.domain, risevision.com not an accepted suffix of current document domain
+          console.log("document.domain can't be set", err);
+        }
+      }
+
       console.log("configuring");
 
       // electron / websocket or chromeos / window
