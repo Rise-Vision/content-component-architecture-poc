@@ -14,10 +14,11 @@
     <script type="module">
       import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
     </script>
-    <script src="http://widgets.risevision.com/staging/common/2018.10.03.10.00/rise-player-configuration.js"></script>
-    <script src="http://widgets.risevision.com/staging/common/2018.10.03.10.00/rise-local-messaging.js"></script>
-    <script src="http://widgets.risevision.com/staging/common/2018.10.03.10.00/rise-helpers.js"></script>
-    <script src="http://widgets.risevision.com/staging/common/2018.10.03.10.00/rise-local-storage.js"></script>
+    <script src="http://widgets.risevision.com/staging/common/2018.10.04.10.00/rise-player-configuration.js"></script>
+    <script src="http://widgets.risevision.com/staging/common/2018.10.04.10.00/rise-local-messaging.js"></script>
+    <script src="http://widgets.risevision.com/staging/common/2018.10.04.10.00/rise-helpers.js"></script>
+    <script src="http://widgets.risevision.com/staging/common/2018.10.04.10.00/rise-local-storage.js"></script>
+    <script src="http://widgets.risevision.com/staging/common/2018.10.04.10.00/rise-component-loader.js"></script>
     <script>
       if (document.domain.indexOf("localhost") === -1) {
         try {
@@ -31,7 +32,9 @@
       console.log("configuring");
 
       // electron / websocket or chromeos / window
-      RisePlayerConfiguration.configure({}, {
+      RisePlayerConfiguration.configure({
+        playerType: "beta"
+      }, {
         player: "electron",
         connectionType: "websocket",
         detail: { serverUrl: "http://localhost:8080" }
