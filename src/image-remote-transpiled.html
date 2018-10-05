@@ -14,11 +14,11 @@
     <script type="module">
       import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
     </script>
-    <script src="https://widgets.risevision.com/staging/common/2018.10.05.10.00/rise-player-configuration.js"></script>
-    <script src="https://widgets.risevision.com/staging/common/2018.10.05.10.00/rise-local-messaging.js"></script>
-    <script src="https://widgets.risevision.com/staging/common/2018.10.05.10.00/rise-helpers.js"></script>
-    <script src="https://widgets.risevision.com/staging/common/2018.10.05.10.00/rise-local-storage.js"></script>
-    <script src="https://widgets.risevision.com/staging/common/2018.10.05.10.00/rise-component-loader.js"></script>
+    <script src="https://widgets.risevision.com/beta/common/rise-player-configuration.js"></script>
+    <script src="https://widgets.risevision.com/beta/common/rise-local-messaging.js"></script>
+    <script src="https://widgets.risevision.com/beta/common/rise-helpers.js"></script>
+    <script src="https://widgets.risevision.com/beta/common/rise-local-storage.js"></script>
+    <script src="https://widgets.risevision.com/beta/common/rise-component-loader.js"></script>
     <script>
       if (document.domain.indexOf("localhost") === -1) {
         try {
@@ -39,7 +39,7 @@
         console.log( "configuring components" );
 
         // this manual fetch and script injection won't be necessary after next card
-        fetch('https://widgets.risevision.com/staging/components/rise-data-image/2018.10.03.16.20/rise-data-image.js')
+        fetch('https://widgets.risevision.com/beta/components/rise-data-image/rise-data-image.js')
         .then(response => response.text())
         .then(code => {
           let script = document.createElement('script');
