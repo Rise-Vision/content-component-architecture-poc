@@ -30,39 +30,31 @@
       }
     </script>
     <script>
+      function configureComponents() {
+        // all of the following will be implemented later by a rise-image component
+        let image01 = document.querySelector('#rise-data-image-01');
+        image01.addEventListener('image-status-updated', event => {
+          var content = event.detail.status === 'CURRENT' ?
+            `<img src=${ event.detail.url } width="50" height="50">` :
+            `<p>image not available, status: ${ event.detail.status }</p>`
+
+          document.querySelector('#image01').innerHTML = content;
+        });
+        image01.addEventListener('image-error', event => {
+          document.querySelector('#image01').innerHTML = `
+            <p>image error: ${ event.detail.errorMessage }</p>
+          `;
+        });
+      }
+
       function fetchAndConfigureComponents(event) {
         if ( !event.detail.isLoaded ) {
           console.log( "load process failed" );
           return;
         }
 
-        console.log( "configuring components" );
-
-        // this manual fetch and script injection won't be necessary after next card
-        fetch('https://widgets.risevision.com/beta/components/rise-data-image/rise-data-image.js')
-        .then(response => response.text())
-        .then(code => {
-          let script = document.createElement('script');
-          script.append(code);
-
-          document.body.appendChild(script);
-
-          // all of the following will be implemented later by a rise-image component
-          let image01 = document.querySelector('#rise-data-image-01');
-          image01.addEventListener('image-status-updated', event => {
-            var content = event.detail.status === 'CURRENT' ?
-              `<img src=${ event.detail.url } width="50" height="50">` :
-              `<p>image not available, status: ${ event.detail.status }</p>`
-
-            document.querySelector('#image01').innerHTML = content;
-          });
-          image01.addEventListener('image-error', event => {
-            document.querySelector('#image01').innerHTML = `
-              <p>image error: ${ event.detail.errorMessage }</p>
-            `;
-          });
-        })
-        .catch(console.error);
+        console.log( "manual configuration" );
+        configureComponents();
       }
 
       window.addEventListener( "rise-components-loaded", fetchAndConfigureComponents );
