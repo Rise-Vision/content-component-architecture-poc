@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Financial and Image Component Test</title>
+
+	<script src="../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+	<link rel="import" href="../bower_components/rise-financial/rise-financial.html">
+
+</head>
+<body>
+
+	<rise-financial
+    id = "technologyStocks"
+    financial-list = "-LNuO9WH5ZEQ2PLCeHhz"
+    instrument-fields='["instrument", "netChange", "percentChange"]'>
+  </rise-financial>
+
+  <ul id="list">
+
+  </ul>
+
+  <script>
+    // Listen for "WebComponentsReady" event.
+    window.addEventListener( "WebComponentsReady", function( e ) {
+      const financial = document.getElementById( "technologyStocks" );
+      const list = document.getElementById ("list");
+
+      financial.addEventListener( "rise-financial-response", ( e ) => {
+        appendData(e.detail);
+      } );
+
+      financial.addEventListener( "rise-financial-no-data", ( e ) => {
+        console.log( "No data available" );
+      } );
+
+      const appendData = results => {
+
+      	let element;
+      	let fragment = document.createDocumentFragment();
+
+      	while (list.firstChild) {
+    			list.removeChild(list.firstChild);
+				}
+
+      	for (let i = 0; i < results.data.rows.length; i++) {
+      		element = document.createElement("li");
+      		element.innerText = `${results.data.rows[i].c[0].v} change is  ${results.data.rows[i].c[2].v}%`;
+      		fragment.appendChild(element);
+      	}
+
+      	list.appendChild(fragment);
+
+      };
+
+      // Request the financial data.
+      financial.go();
+    });
+  </script>
+
+</body>
+</html>
