@@ -17,6 +17,7 @@
     <script src="https://widgets.risevision.com/beta/common/rise-player-configuration.js"></script>
     <script src="https://widgets.risevision.com/beta/common/rise-local-messaging.js"></script>
     <script src="https://widgets.risevision.com/beta/common/rise-helpers.js"></script>
+    <script src="https://widgets.risevision.com/beta/common/rise-logger.js"></script>
     <script src="https://widgets.risevision.com/beta/common/rise-local-storage.js"></script>
     <script src="https://widgets.risevision.com/beta/common/rise-component-loader.js"></script>
     <script>
@@ -64,7 +65,9 @@
 
       // electron / websocket or chromeos / window
       RisePlayerConfiguration.configure({
-        playerType: "beta"
+        playerType: "beta",
+        playerVersion: "TEST_VERSION",
+        os: "TEST_OS"
       }, {
         player: "electron",
         connectionType: "websocket",
