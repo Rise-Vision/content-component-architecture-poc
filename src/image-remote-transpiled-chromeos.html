@@ -29,6 +29,14 @@
           console.log("document.domain can't be set", err);
         }
       }
+
+      // only load rise-data-image
+      RisePlayerConfiguration.ComponentLoader.components = [
+        {
+          name: "rise-data-image",
+          url: "https://widgets.risevision.com/beta/components/rise-data-image/rise-data-image.js"
+        }
+      ];
     </script>
     <script>
       function configureComponents() {
