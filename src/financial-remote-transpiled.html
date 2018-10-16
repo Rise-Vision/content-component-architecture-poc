@@ -37,8 +37,19 @@
   <script src="https://widgets.risevision.com/beta/common/rise-component-loader.js"></script>
   <script>
     function configureComponents() {
-      // all of the following will be implemented later by a rise-financial component
-      let financial01 = document.querySelector('#rise-data-financial-01');
+      const start = new CustomEvent( "start" ),
+        financial01 = document.querySelector('#rise-data-financial-01');
+
+      financial01.addEventListener( "instruments-received", ( evt ) => {
+        console.log("instruments received", evt.detail);
+
+        console.log("dispatching 'start' event");
+        financial01.dispatchEvent(start);
+      } );
+
+      financial01.addEventListener( "instruments-unavailable", () => {
+        console.log("instruments unavailable");
+      } );
     }
 
     function fetchAndConfigureComponents(event) {
