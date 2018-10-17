@@ -38,10 +38,17 @@
   <script>
     function configureComponents() {
       const start = new CustomEvent( "start" ),
+        overrideDisplayId = new CustomEvent( "override-displayid", {
+          bubbles: true,
+          detail: { id: "Y8SAH3CQ6NMP" }
+        } ),
         financial01 = document.querySelector('#rise-data-financial-01');
 
       financial01.addEventListener( "instruments-received", ( evt ) => {
         console.log("instruments received", evt.detail);
+
+        console.log("temporarily force display id");
+        financial01.dispatchEvent(overrideDisplayId);
 
         console.log("dispatching 'start' event");
         financial01.dispatchEvent(start);
