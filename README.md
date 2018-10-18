@@ -63,7 +63,7 @@ in the meantime.
 Alternatively, all build/es5 may be uploaded to GCS, with public permissions
 and no caching; and the schedule may point to the published file.
 
-## Build & run instructions - Player Electron
+## Build & run instructions - ChromeOS Player
 
 Currently, the image-remote-transpiled.html is fixed for Player Electron.
 To build the test page for ChromeOS player one should use the provided file
