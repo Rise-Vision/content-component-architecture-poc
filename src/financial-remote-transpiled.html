@@ -57,6 +57,18 @@
       financial01.addEventListener( "instruments-unavailable", () => {
         console.log("instruments unavailable");
       } );
+
+      financial01.addEventListener( "data-update", ( evt ) => {
+        console.log( "data update", evt.detail );
+      } );
+
+      financial01.addEventListener( "data-error", ( evt ) => {
+        console.log( "data error", evt.detail );
+      } );
+
+      financial01.addEventListener( "request-error", ( evt ) => {
+        console.log( "request error", evt.detail );
+      } );
     }
 
     function fetchAndConfigureComponents(event) {
