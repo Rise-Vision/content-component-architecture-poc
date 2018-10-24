@@ -1,0 +1,43 @@
+version: 2.1
+
+jobs:
+  gcloud-setup:
+    docker: &GCSIMAGE
+      - image: jenkinsrise/cci-v2-launcher-electron:0.0.6
+        environment:
+          WIDGETS_BASE: gs://widgets.risevision.com
+    steps:
+      - run: mkdir -p ~/.ssh
+      - run: ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+      - run: git clone git@github.com:Rise-Vision/private-keys.git
+      - run: mv private-keys ..
+      - run: gcloud auth activate-service-account 452091732215@developer.gserviceaccount.com --key-file ../private-keys/storage-server/rva-media-library-ce0d2bd78b54.json
+      - persist_to_workspace:
+          root: ~/.config
+          paths:
+            - gcloud
+
+  deploy-demo:
+    docker: *GCSIMAGE
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - restore_cache:
+          key: node-cache-{{ checksum "package.json" }}
+      - run: mkdir -p ~/.config
+      - run: cp -r gcloud ~/.config
+      - run: curl https://storage.googleapis.com/risemedialibrary-7fa5ee92-7deb-450b-a8d5-e5ed648c575f/rise-data-image-demo/prod/src/rise-data-image-chromeos.html -o rise-data-image-chromeos.html
+      - run: |
+          TARGET=$WIDGETS_BASE/staging/pages/2018.10.24.14.00/src
+          gsutil cp rise-data-image-chromeos.html $TARGET/
+          gsutil -m setmeta -r -h "Cache-Control:private, max-age=0" $TARGET
+          gsutil acl -r ch -u AllUsers:R $TARGET
+
+workflows:
+  workflow1:
+    jobs:
+      - gcloud-setup
+      - deploy-demo:
+          requires:
+            - gcloud-setup
