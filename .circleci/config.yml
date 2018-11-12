@@ -29,7 +29,7 @@ jobs:
       - run: cp -r gcloud ~/.config
       - run: mkdir local
       - run: |
-          SOURCE=gs://storage.googleapis.com/risemedialibrary-7fa5ee92-7deb-450b-a8d5-e5ed648c575f/rise-data-image-demo/prod/src
+          SOURCE=gs://risemedialibrary-7fa5ee92-7deb-450b-a8d5-e5ed648c575f/rise-data-image-demo/prod/src
           TARGET=$WIDGETS_BASE/staging/pages/2018.10.24.15.00/src
           gsutil rsync -d -r $SOURCE/ $TARGET/
           gsutil -m setmeta -r -h "Cache-Control:private, max-age=0" $TARGET
