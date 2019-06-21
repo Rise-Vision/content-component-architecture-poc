@@ -1,0 +1,43 @@
+{
+  "name": "componenttest",
+  "version": "1.0",
+  "authors": [
+    "Peter Cameron <peter.cameron@risevision.com>,  Mathew Meiers <mlm@risedisplay.com>"
+  ],
+  "description": "Financial component test project",
+  "main": "index.html",
+  "keywords": [
+    "polymer",
+    "web-components",
+    "google-sheets"
+  ],
+  "license": "GPLv3",
+  "homepage": "index.html",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "test"
+  ],
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "iron-ajax": "PolymerElements/iron-ajax#^1.0.0",
+    "polymer": "Polymer/polymer#^1.0.0",
+    "underscore": "~1.8.2",
+    "rise-financial": "https://github.com/Rise-Vision/rise-financial.git#^2.1.5",
+    "widget-common": "https://github.com/Rise-Vision/widget-common.git#3.4.10",
+    "moment":"^2.18.1"
+  },
+  "overrides": {
+    "widget-common": {
+      "main": "dist/all.min.js"
+    }
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "pure": "^0.6.0",
+    "web-component-tester": "*"
+  },
+  "resolutions": {
+    "jquery": "^3.2.1"
+  }
+}
