@@ -10,7 +10,10 @@ jobs:
       - run: git log --no-decorate --format=oneline | head -30 || true
       - run: git log --no-decorate --grep='^Merge pull request' --format=oneline | head -1 | cut -d' ' -f 1 || true
       - run: |
-          LAST_MASTER_COMMIT_ID=$( git log --merges --pretty=format:%H -n1 HEAD~1 )
+          LAST_MASTER_COMMIT_ID=$( git log --no-decorate --grep='^Merge pull request' --format=oneline | head -1 | cut -d' ' -f 1 || true )
+          echo "Last master commit id is $LAST_MASTER_COMMIT_ID"
+          git diff-tree --no-commit-id --name-only -r HEAD $LAST_MASTER_COMMIT_ID || true
+      - run: |
           LAST_MASTER_COMMIT_ID=$( git log --no-decorate --grep='^Merge pull request' --format=oneline | head -1 | cut -d' ' -f 1 || true )
           echo "Last master commit id is $LAST_MASTER_COMMIT_ID"
           git diff-tree --no-commit-id --name-only -r HEAD $LAST_MASTER_COMMIT_ID | grep -Po '^[^./][^/]*(?=/)' | sort -u || true
