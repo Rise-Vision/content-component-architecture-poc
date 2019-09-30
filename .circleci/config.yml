@@ -7,7 +7,7 @@ jobs:
     steps:
       - checkout
       - run: git log --no-decorate --format=oneline | head -30 || true
-      - run: git log --no-decorate --grep='^Merge pull request' --format=oneline | head -1 | cut -d' ' -f 1
+      - run: git log --no-decorate --grep='^Merge pull request' --format=oneline | head -1 | cut -d' ' -f 1 || true
 
 workflows:
   workflow1:
