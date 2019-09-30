@@ -6,6 +6,7 @@ jobs:
       - image: jenkinsrise/cci-v2-components:0.0.4
     steps:
       - checkout
+      - run: echo $CIRCLE_COMPARE_URL
       - run: git log --no-decorate --format=oneline | head -30 || true
       - run: git log --no-decorate --grep='^Merge pull request' --format=oneline | head -1 | cut -d' ' -f 1 || true
 
