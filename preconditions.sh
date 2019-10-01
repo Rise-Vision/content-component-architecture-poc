@@ -23,7 +23,7 @@ extract_templates_from_history() {
 
 mkdir build_tmp
 
-if [[ ${BASE_BRANCH} == "master" ]]; then
+if [[ "${BASE_BRANCH}" == "master" ]]; then
     PREVIOUS_MASTER_COMMIT_ID=$( list_master_merges | sed -n 2p )
     echo "Previous master commit id is $PREVIOUS_MASTER_COMMIT_ID"
 
@@ -38,7 +38,7 @@ else
     extract_templates_from_history "$PREVIOUS_MASTER_COMMIT_ID"
     NUMBER_OF_TEMPLATE_CHANGES=$?
 
-    if [[ ${BASE_BRANCH}  =~ ^(fix|chore|feature|global-icons)$ ]]; then
+    if [[ "${BASE_BRANCH}" =~ ^(fix|chore|feature|global-icons)$ ]]; then
         if [[ $NUMBER_OF_TEMPLATE_CHANGES -ge 1 ]]; then
             echo "${BRANCH} should not change any templates"
             # don't interrupt build until it's validated
