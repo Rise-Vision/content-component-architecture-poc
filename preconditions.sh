@@ -38,7 +38,7 @@ else
 
     if [[ ${BASE_BRANCH}  =~ ^(fix|chore|feature|global-icons)$ ]]; then
         if [[ $NUMBER_OF_TEMPLATE_CHANGES -ge 0 ]]; then
-            echo "${BRANCH} should not change any templates"
+            echo "${BRANCH} should not change any templates ($NUMBER_OF_TEMPLATE_CHANGES)"
             exit 1
         fi
     else
