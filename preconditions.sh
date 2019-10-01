@@ -23,7 +23,7 @@ extract_templates_from_history() {
 
 mkdir build_tmp
 
-if [[ ${BASE_BRANCH} == "master" ]]; then
+if [[ "${BASE_BRANCH}" == "master" ]]; then
     PREVIOUS_MASTER_COMMIT_ID=$( list_master_merges | sed -n 2p )
     echo "Previous master commit id is $PREVIOUS_MASTER_COMMIT_ID"
 
@@ -38,10 +38,11 @@ else
     extract_templates_from_history "$PREVIOUS_MASTER_COMMIT_ID"
     NUMBER_OF_TEMPLATE_CHANGES=$?
 
-    if [[ ${BASE_BRANCH}  =~ ^(fix|chore|feature|global-icons)$ ]]; then
+    if [[ "${BASE_BRANCH}" =~ ^(fix|chore|feature|global-icons)$ ]]; then
         if [[ $NUMBER_OF_TEMPLATE_CHANGES -ge 1 ]]; then
             echo "${BRANCH} should not change any templates"
-            exit 1
+            # don't interrupt build until it's validated
+            # exit 1
         fi
     else
         BRANCH_FOUND=false
@@ -61,13 +62,15 @@ else
 
         if [[ $NUMBER_OF_TEMPLATE_CHANGES -ge 2 ]]; then
             echo "Multiple template changes still not supported"
-            exit 1
+            # don't interrupt build until it's validated
+            # exit 1
         elif [[ $NUMBER_OF_TEMPLATE_CHANGES -eq 1 ]]; then
             CHANGED_DIRECTORY=$( cat build_tmp/changes )
 
             if [[ $BASE_BRANCH != $CHANGED_DIRECTORY ]]; then
                 echo "Branch name $BASE_BRANCH does not correspond with changed directory $CHANGED_DIRECTORY"
-                exit 1
+                # don't interrupt build until it's validated
+                # exit 1
             fi
         else
             echo "WARNING: no files changed for $BASE_BRANCH; so merging to master won't do any template deployments"
