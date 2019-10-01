@@ -9,7 +9,7 @@ list_master_merges() {
 }
 
 extract_templates_from_history() {
-   echo Extracting changed templates from git log
+   echo Extracting changed templates from git log:
 
   # ignores hidden, underscored ( samples ) and global-icons folders
   git diff-tree --no-commit-id --name-only -r HEAD $1 |
