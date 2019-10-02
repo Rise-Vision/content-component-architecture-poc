@@ -5,10 +5,19 @@ STAGE=$2
 PRODUCT_CODE=$3
 TEMPLATE=$4
 
-TARGET=$TEMPLATES_BASE/$STAGE/templates/$PRODUCT_CODE
+STAGE_LIST=$STAGE
+if [[ $STAGE == 'all' ]]
+then
+  STAGE_LIST='staging,beta,stable'
+fi
 
-echo Deploying $STAGE version of $TEMPLATE to $TARGET
+for current_stage in $( echo $STAGE_LIST | tr ',' '\n' )
+do
+  TARGET=$TEMPLATES_BASE/$STAGE/templates/$PRODUCT_CODE
 
-echo gsutil -m rsync -d -r $TEMPLATE/build/prod $TARGET
-echo gsutil -m setmeta -r -h "Cache-Control:private, max-age=0" $TARGET
-echo gsutil -m acl -r ch -u AllUsers:R $TARGET
+  echo Deploying $STAGE_LIST version of $TEMPLATE to $TARGET
+
+  echo gsutil -m rsync -d -r $TEMPLATE/build/prod $TARGET
+  echo gsutil -m setmeta -r -h "Cache-Control:private, max-age=0" $TARGET
+  echo gsutil -m acl -r ch -u AllUsers:R $TARGET
+done
