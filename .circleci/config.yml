@@ -6,13 +6,295 @@ jobs:
       - image: jenkinsrise/cci-v2-components:0.0.4
     steps:
       - checkout
-      - run: echo $CIRCLE_BRANCH
-      - run: echo $CIRCLE_COMPARE_URL
-      - run: git log --no-decorate --format=oneline | head -30 || true
-      - run: git log --no-decorate --grep='^Merge pull request' --format=oneline | head -1 | cut -d' ' -f 1 || true
+      - run:
+          name: Get the log of latest commits, for debugging purposes. It will be removed later.
+          command: git log --no-decorate --format=oneline | head -30 || true
       - run: ./preconditions.sh
+      - persist_to_workspace:
+          root: .
+          paths:
+            - build_tmp
+
+  install:
+    docker: *BUILDIMAGE
+    steps:
+      - checkout
+      - restore_cache:
+          key: node-root-cache-{{ checksum "package.json" }}
+      - run: npm install
+      - save_cache:
+          key: node-root-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+
+  template-install:
+    docker: *BUILDIMAGE
+    steps:
+      - checkout
+      - attach_workspace:
+            at: .
+      - run: ./skip-if-no-template-changes.sh
+      - run: |
+          TEMPLATE=$(cat build_tmp/template)
+          cp -r $TEMPLATE current-template
+      - run:
+          name: generate copy of package.json without a version field
+          command: sed '0,/version/{/version/d}' current-template/package.json > build_tmp/package.json
+      - restore_cache:
+          key: node-cache-{{ checksum "build_tmp/package.json" }}
+      - run: |
+          cd current-template && npm install
+      - save_cache:
+          key: node-cache-{{ checksum "build_tmp/package.json" }}
+          paths:
+            - ./current-template/node_modules
+      - persist_to_workspace:
+          root: .
+          paths:
+            - build_tmp
+
+  template-build:
+    docker: *BUILDIMAGE
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - restore_cache:
+          key: node-cache-{{ checksum "build_tmp/package.json" }}
+      - run: |
+          TEMPLATE=$(cat build_tmp/template)
+          cp -r current-template/node_modules/ $TEMPLATE/node_modules
+          cd $TEMPLATE && npm run build
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+
+  template-blueprint:
+    docker: *BUILDIMAGE
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - restore_cache:
+          key: node-root-cache-{{ checksum "package.json" }}
+      - run: |
+          TEMPLATE=$(cat build_tmp/template)
+          node generate_blueprint.js $TEMPLATE
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+
+  gcloud-setup:
+    docker: &GCSIMAGE
+      - image: jenkinsrise/cci-v2-launcher-electron:0.0.6
+        environment:
+          TEMPLATES_BASE: gs://widgets.risevision.com
+    steps:
+      - run: mkdir -p ~/.ssh
+      - run: ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+      - run: git clone git@github.com:Rise-Vision/private-keys.git
+      - run: mv private-keys ..
+      - run: gcloud auth activate-service-account 452091732215@developer.gserviceaccount.com --key-file ../private-keys/storage-server/rva-media-library-ce0d2bd78b54.json
+      - persist_to_workspace:
+          root: ~/.config
+          paths:
+            - gcloud
+
+  generate-product-code:
+    docker: *BUILDIMAGE
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run: |
+          TEMPLATE=$(cat build_tmp/template)
+          cd $TEMPLATE
+          if [ -z $(grep version package.json |grep -o '[0-9.]*') ]
+          then
+            echo Template version must be specified in package.json
+            exit 1
+          fi
+          PACKAGE_VERSION=$(grep version package.json | grep -o '[0-9.]*')
+          cd ../
+          MAJOR_VERSION=$(echo $PACKAGE_VERSION | grep -Po '[0-9]+' | head -1)
+          PRODUCT_ID="${TEMPLATE}_v${MAJOR_VERSION}"
+          echo Product id is $PRODUCT_ID
+          echo ${PRODUCT_ID} > build_tmp/product-id
+          PRODUCT_CODE=$(curl -s https://store-dot-rvaserver2.appspot.com/v1/product/$PRODUCT_ID/generate-code | sed 's/.*"\(.*\)".*/\1/')
+          echo Product code is $PRODUCT_CODE
+          echo ${PRODUCT_CODE} > build_tmp/product-code
+      - persist_to_workspace:
+          root: .
+          paths:
+            - build_tmp
+
+  deploy-template:
+    parameters:
+      stage:
+        type: string
+    docker: *GCSIMAGE
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run: mkdir -p ~/.config
+      - run: cp -r gcloud ~/.config
+      - run: |
+          PRODUCT_CODE=$(cat build_tmp/product-code)
+          TEMPLATE=$(cat build_tmp/template)
+          ./inject_template_parameters.sh "$TEMPLATE" "$PRODUCT_CODE"
+          ./deploy_template.sh "$TEMPLATES_BASE" "<< parameters.stage >>" "$PRODUCT_CODE" "$TEMPLATE"
+
+  deploy-icons:
+    parameters:
+      stage:
+        type: string
+    docker: *GCSIMAGE
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run: mkdir -p ~/.config
+      - run: cp -r gcloud ~/.config
+      - run: |
+          TARGET=$TEMPLATES_BASE/<< parameters.stage >>/templates/global-icons
+          echo Deploying global icons to << parameters.stage >>
+          gsutil -m rsync -d -r global-icons $TARGET
+          gsutil -m setmeta -r -h "Cache-Control:private, max-age=0" $TARGET
+          gsutil -m acl -r ch -u AllUsers:R $TARGET
+
 
 workflows:
   workflow1:
     jobs:
       - preconditions
+      - install:
+          requires:
+            - preconditions
+      - template-install:
+          requires:
+            - preconditions
+          filters:
+            branches:
+              ignore:
+                - /^(feature|fix|chore)[/].*/
+                - global-icons/build-stable
+      - template-build:
+          requires:
+            - template-install
+          filters:
+            branches:
+              ignore:
+                - master
+                - /^(feature|fix|chore)[/].*/
+                - global-icons/build-stable
+      - template-blueprint:
+          requires:
+            - template-build
+          filters:
+            branches:
+              only:
+                - /^.*[/](stage|staging)[/].*/
+                - /^.*[/](build-beta)[/].*/
+                - /^.*[/](build-stable)[/].*/
+              ignore:
+                - master
+                - /^(feature|fix|chore)[/].*/
+                - global-icons/build-stable
+      - gcloud-setup:
+          requires:
+            - preconditions
+          filters:
+            branches:
+              only:
+                - /^.*[/](stage|staging)[/].*/
+                - /^.*[/](build-beta)[/].*/
+                - /^.*[/](build-stable)[/].*/
+                - global-icons/build-stable
+                - master
+      - generate-product-code:
+          requires:
+            - template-install
+          filters:
+            branches:
+              only:
+                - /^.*[/](stage|staging)[/].*/
+                - /^.*[/](build-beta)[/].*/
+                - /^.*[/](build-stable)[/].*/
+              ignore:
+                - /^(feature|fix|chore)[/].*/
+      - deploy-icons:
+          stage: staging
+          name: deploy-icons-staging
+          requires:
+            - install
+            - gcloud-setup
+          filters:
+            branches:
+              only:
+                - /^.*[/](stage|staging)[/].*/
+              ignore:
+                - /^(feature|fix|chore)[/].*/
+      - deploy-template:
+          stage: staging
+          name: deploy-staging
+          requires:
+            - deploy-icons-staging
+            - generate-product-code
+            - template-blueprint
+          filters:
+            branches:
+              only:
+                - /^.*[/](stage|staging)[/].*/
+              ignore:
+                - /^(feature|fix|chore)[/].*/
+      - deploy-template:
+          stage: beta
+          name: deploy-beta
+          requires:
+            - gcloud-setup
+            - generate-product-code
+            - template-blueprint
+          filters:
+            branches:
+              only:
+                - /^.*[/](build-beta)[/].*/
+              ignore:
+                - /^(feature|fix|chore)[/].*/
+      - deploy-template:
+          stage: stable
+          name: deploy-stable
+          requires:
+            - gcloud-setup
+            - generate-product-code
+            - template-blueprint
+          filters:
+            branches:
+              only:
+                - /^.*[/](build-stable)[/].*/
+              ignore:
+                - /^(feature|fix|chore)[/].*/
+      - deploy-icons:
+          stage: beta
+          name: deploy-icons-beta
+          requires:
+            - install
+            - gcloud-setup
+          filters:
+            branches:
+              only:
+                - master
+      - deploy-icons:
+          stage: stable
+          name: deploy-icons-stable
+          requires:
+            - install
+            - gcloud-setup
+          filters:
+            branches:
+              only:
+                - global-icons/build-stable
+              ignore:
+                - /^(feature|fix|chore)[/].*/
