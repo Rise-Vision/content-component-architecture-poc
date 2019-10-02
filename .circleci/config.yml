@@ -33,7 +33,7 @@ jobs:
       - checkout
       - attach_workspace:
             at: .
-      - run: ./skip-if-no-template-changes.sh
+      - run: ./skip-if-no-master-template-changes.sh
       - run: |
           TEMPLATE=$(cat build_tmp/template)
           cp -r $TEMPLATE current-template
@@ -59,6 +59,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
+      - run: ./skip-if-no-master-template-changes.sh
       - restore_cache:
           key: node-cache-{{ checksum "build_tmp/package.json" }}
       - run: |
@@ -176,7 +177,7 @@ workflows:
       - template-install:
           requires:
             - preconditions
-          filters:
+          filters: &TEMPLATE_BRANCHES
             branches:
               ignore:
                 - /^(feature|fix|chore)[/].*/
@@ -184,12 +185,7 @@ workflows:
       - template-build:
           requires:
             - template-install
-          filters:
-            branches:
-              ignore:
-                - master
-                - /^(feature|fix|chore)[/].*/
-                - global-icons/build-stable
+          filters: *TEMPLATE_BRANCHES
       - template-blueprint:
           requires:
             - template-build
