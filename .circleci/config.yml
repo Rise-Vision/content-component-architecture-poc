@@ -110,6 +110,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
+      - run: ./skip-if-no-master-template-changes.sh
       - run: |
           TEMPLATE=$(cat build_tmp/template)
           cd $TEMPLATE
@@ -141,6 +142,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
+      - run: ./skip-if-no-master-template-changes.sh
       - run: mkdir -p ~/.config
       - run: cp -r gcloud ~/.config
       - run: |
@@ -190,7 +192,7 @@ workflows:
       - template-blueprint:
           requires:
             - template-build
-          filters:
+          filters: &TEMPLATE_DEPLOYMENT_BRANCHES
             branches:
               only:
                 - master
@@ -214,24 +216,35 @@ workflows:
       - generate-product-code:
           requires:
             - template-install
-          filters:
-            branches:
-              only:
-                - /^.*[/](stage|staging)[/].*/
-                - /^.*[/](build-beta)[/].*/
-                - /^.*[/](build-stable)[/].*/
-              ignore:
-                - /^(feature|fix|chore)[/].*/
+          filters: *TEMPLATE_DEPLOYMENT_BRANCHES
       - deploy-icons:
           stage: staging
           name: deploy-icons-staging
-          requires:
+          requires: &INSTALL_AND_GCLOUD
             - install
             - gcloud-setup
-          filters:
+          filters: &TEMPLATE_STAGING_BRANCHES
             branches:
               only:
                 - /^.*[/](stage|staging)[/].*/
+              ignore:
+                - /^(feature|fix|chore)[/].*/
+      - deploy-icons:
+          stage: beta
+          name: deploy-icons-beta
+          requires: *INSTALL_AND_GCLOUD
+          filters: &MASTER_BRANCH
+            branches:
+              only:
+                - master
+      - deploy-icons:
+          stage: stable
+          name: deploy-icons-stable
+          requires: *INSTALL_AND_GCLOUD
+          filters:
+            branches:
+              only:
+                - global-icons/build-stable
               ignore:
                 - /^(feature|fix|chore)[/].*/
       - deploy-template:
@@ -241,12 +254,7 @@ workflows:
             - deploy-icons-staging
             - generate-product-code
             - template-blueprint
-          filters:
-            branches:
-              only:
-                - /^.*[/](stage|staging)[/].*/
-              ignore:
-                - /^(feature|fix|chore)[/].*/
+          filters: *TEMPLATE_STAGING_BRANCHES
       - deploy-template:
           stage: beta
           name: deploy-beta
@@ -273,25 +281,11 @@ workflows:
                 - /^.*[/](build-stable)[/].*/
               ignore:
                 - /^(feature|fix|chore)[/].*/
-      - deploy-icons:
-          stage: beta
-          name: deploy-icons-beta
+      - deploy-template:
+          stage: all
+          name: deploy-all
           requires:
-            - install
             - gcloud-setup
-          filters:
-            branches:
-              only:
-                - master
-      - deploy-icons:
-          stage: stable
-          name: deploy-icons-stable
-          requires:
-            - install
-            - gcloud-setup
-          filters:
-            branches:
-              only:
-                - global-icons/build-stable
-              ignore:
-                - /^(feature|fix|chore)[/].*/
+            - generate-product-code
+            - template-blueprint
+          filters: *MASTER_BRANCH
