@@ -30,7 +30,13 @@ if [[ "${BASE_BRANCH}" == "master" ]]; then
     extract_templates_from_history "$PREVIOUS_MASTER_COMMIT_ID"
     NUMBER_OF_TEMPLATE_CHANGES=$?
 
-    echo "Deploying $NUMBER_OF_TEMPLATE_CHANGES templates"
+    echo "Number of templates detected: $NUMBER_OF_TEMPLATE_CHANGES"
+
+    if [[ $NUMBER_OF_TEMPLATE_CHANGES == 1 ]]; then
+      cp build_tmp/changes build_tmp/template
+    elif [[ $NUMBER_OF_TEMPLATE_CHANGES -ge 2 ]]; then
+      echo "Multiple deployments not currently supported, so no deployments will be attempted"
+    fi
 else
     PREVIOUS_MASTER_COMMIT_ID=$( list_master_merges | sed -n 1p )
     echo "Previous master commit id is $PREVIOUS_MASTER_COMMIT_ID"
