@@ -1,0 +1,98 @@
+<!doctype html>
+
+<html lang="en">
+<title>Example</title>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script src="https://widgets.risevision.com/scripts/primus-local-messaging.js"></script>
+
+  <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+  <script src="../node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+  <script type="module">
+    // this and the following block are needed at build time to force the creation of the shared bundle script
+    import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
+    import "@polymer/iron-image/iron-image.js";
+  </script>
+  <script type="module">
+    import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
+    import "@polymer/iron-image/iron-image.js";
+  </script>
+  <script src="https://widgets.risevision.com/stable/common/config-prod.min.js"></script>
+  <script src="https://widgets.risevision.com/stable/common/common-template.min.js"></script>
+  <script src="https://widgets.risevision.com/stable/components/rise-image/1/rise-image.js"></script>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+  <script>
+    if (document.domain.indexOf("localhost") === -1) {
+      try {
+        document.domain = "risevision.com";
+      } catch (err) {
+        // can't set document.domain, risevision.com not an accepted suffix of current document domain
+        console.log("document.domain can't be set", err);
+      }
+    }
+  </script>
+
+  <!-- link to stylesheet -->
+  <link rel="stylesheet" href="css/main.css">
+
+  <!-- link to Google Fonts CDN: Righteous and Lato -->
+  <link href="https://fonts.googleapis.com/css?family=Righteous|Lato:400,700" rel="stylesheet">
+</head>
+
+<body>
+
+<div id="image-default">
+  <rise-image id="rise-image-default"
+              responsive
+              files="risemedialibrary-7fa5ee92-7deb-450b-a8d5-e5ed648c575f/rise-image-demo/blue-jays-logo.jpg"
+              label="Default Image">
+  </rise-image>
+</div>
+<div id="image-contain">
+  <rise-image id="rise-image-contain"
+              width="300"
+              height="300"
+              sizing="contain"
+              files="risemedialibrary-7fa5ee92-7deb-450b-a8d5-e5ed648c575f/rise-image-demo/Pensive Parakeet.jpg"
+              label="Contain">
+  </rise-image>
+</div>
+<div id="image-cover">
+  <rise-image id="rise-image-cover"
+              width="300"
+              height="100"
+              sizing="cover"
+              files="risemedialibrary-7fa5ee92-7deb-450b-a8d5-e5ed648c575f/rise-image-demo/Costa Rican Frog.jpg"
+              label="Cover">
+  </rise-image>
+</div>
+<div id="image-duration">
+  <rise-image id="rise-image-duration"
+              responsive
+              duration="3"
+              files="risemedialibrary-7fa5ee92-7deb-450b-a8d5-e5ed648c575f/rise-image-demo/raptors_logo.png|risemedialibrary-7fa5ee92-7deb-450b-a8d5-e5ed648c575f/rise-image-demo/kcu_logo.png"
+              label="Duration">
+  </rise-image>
+</div>
+<div id="image-non-editable">
+  <rise-image id="rise-image-non-editable"
+              non-editable
+              responsive
+              files="risemedialibrary-7fa5ee92-7deb-450b-a8d5-e5ed648c575f/rise-image-demo/reuters-logo.png"
+              label="Non Editable">
+  </rise-image>
+</div>
+
+<!--CDN link for  TweenMax-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
+
+<script src="js/main.js"></script>
+
+<script>
+  RisePlayerConfiguration.configure();
+</script>
+
+</body>
+</html>

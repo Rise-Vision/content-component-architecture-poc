@@ -1,0 +1,130 @@
+article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary{display:block;}audio,canvas,video{display:inline-block;}audio:not([controls]){display:none;height:0;}[hidden]{display:none;}html{font-family:sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;}a:focus{outline:thin dotted;}a:active,a:hover{outline:0;}h1{font-size:2em;}abbr[title]{border-bottom:1px dotted;}b,strong{font-weight:700;}dfn{font-style:italic;}mark{background:#ff0;color:#000;}code,kbd,pre,samp{font-family:monospace, serif;font-size:1em;}pre{white-space:pre-wrap;word-wrap:break-word;}q{quotes:\201C \201D \2018 \2019;}small{font-size:80%;}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline;}sup{top:-.5em;}sub{bottom:-.25em;}img{border:0;}svg:not(:root){overflow:hidden;}fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em;}button,input,select,textarea{font-family:inherit;font-size:100%;margin:0;}button,input{line-height:normal;}button,html input[type=button],/* 1 */
+input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer;}button[disabled],input[disabled]{cursor:default;}input[type=checkbox],input[type=radio]{box-sizing:border-box;padding:0;}input[type=search]{-webkit-appearance:textfield;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box;}input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-search-decoration{-webkit-appearance:none;}textarea{overflow:auto;vertical-align:top;}table{border-collapse:collapse;border-spacing:0;}body,figure{margin:0;}legend,button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0;}
+
+.clearfix:after {visibility: hidden; display: block; font-size: 0; content: " "; clear: both; height: 0; }
+
+* { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+
+/* == CONTENTS ==
+		1 - Fonts
+		2 - Font Sizes
+		3 - Font Weights
+		4 - Colors
+		5 - Header Styles
+		6 - Container Styles
+*/
+
+// == 1. Fonts ==
+//== Family ==
+$font_family: "Lato", sans-serif;
+$font_family_header: "Righteous", sans-serif;
+
+//== 2. Font Sizes ==
+
+//-General
+$header_1360: 28px;
+$header_3840: 60px;
+$header_fullpage: 37px;
+$header_fullpage_1360: 30px;
+$header_fullpage_3840: 80px;
+$instrument_title: 24px;
+$instrument_title_1360: 18px;
+$instrument_title_3840: 50px;
+$instrument_values: 18px;
+$instrument_values_1360: 15px;
+$instrument_values_3840: 40px;
+$instrument_value_headers: 10px;
+$instrument_value_headers_1360: 9px;
+$instrument_value_headers_3840: 30px;
+$disclaimer: 10px;
+$disclaimer_3840: 18px;
+$currency_title: 36px;
+$currency_title_1360: 30px;
+$currency_title_3840: 60px;
+$currency_values: 36px;
+$currency_values_1360: 28px;
+$currency_values_3840: 70px;
+$container_title: 3rem;
+$top_six_titles: 4rem;
+$top_six_values: 3rem;
+$top_six_values_1360: 4rem;
+$bottom_eighteen_titles: 2.5rem;
+$bottom_eighteen_values: 2rem;
+
+//-Announcements
+$announcements_title: 40px;
+$announcements_text: 24px;
+
+//-Charts
+$menu_buttons: 15px;
+
+//-Global Markets
+$market_title: 24px;
+$market_status: 15px;
+$market_values: 18px;
+$market_subheaders: 10px;
+
+//-News
+$news_title: 40px;
+$news_text: 24px;
+
+
+//== 3. Font Weights ==
+$weight_regular: 400;
+$weight_bold: 700;
+$weight_black: 900;
+
+
+//== 4. Colors ==
+$white: #FFF;
+$green: #4AB767;
+$red: #FF271E;
+$blue: #326AB6;
+$black: #000000;
+$header_rule_color: $red;
+
+
+//== 5. HEADER STYLES ==
+
+//-Table Header Styles
+$header_padding: 17px 20px;
+$header_rule_height: 2px;
+$header_rule_height_3840: 6px;
+$header_logo_width: 150px;
+$header_logo_height: 30px;
+$header_logo_width_3840: 300px;
+$header_logo_height_3840: 80px;
+$header_rule_radius:5px;
+$header_reuters_width: 200px;
+$header_reuters_height: 25px;
+$header_reuters_width_3840: 400px;
+$header_reuters_height_3840: 70px;
+
+
+//== 6. CONTAINER STYLES
+
+//-borders
+$container_border_positive: 1px solid $green;
+$container_border_negative: 1px solid $red;
+$container_border_radius: 50px;
+$container_border_positive_3840: 3px solid $green;
+$container_border_negative_3840: 3px solid $red;
+$container_border_radius_3840: 100px;
+
+//-background
+$container_background_positive: rgba($white, 0);
+$container_background_negative: rgba($white, 0);
+
+//-key indicators
+$key_indicator_border_positive: 2px solid $green;
+$key_indicator_background_positive: rgba($green, 0);
+
+$key_indicator_border_negative: 2px solid $red;
+$key_indicator_background_negative: rgba($red, 0);
+
+$key_indicator_border_neutral: 2px solid $white;
+$key_indicator_background_neutral: rgba($white, 0);
+
+//-shadow
+$stock_container_shadow: 0 0 30px rgba($black, 0.2), 0 30px 30px rgba($black, 0.3);
+
