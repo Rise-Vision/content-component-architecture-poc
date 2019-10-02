@@ -1,0 +1,27 @@
+{
+  "name": "qa-image-component",
+  "version": "1.0.0",
+  "description": "",
+  "main": "gulp.js",
+  "scripts": {
+    "build": "eslint . && gulp styles && polymer build"
+  },
+  "author": "Rise Vision",
+  "license": "GPL-3.0+",
+  "devDependencies": {
+    "eslint": "^5.6.0",
+    "eslint-config-idiomatic": "^4.0.0",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^4.0.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-sass": "^4.0.2"
+  },
+  "dependencies": {
+    "@polymer/polymer": "3.1.0",
+    "rise-data-financial": "git://github.com/Rise-Vision/rise-data-financial.git",
+    "rise-image": "git://github.com/Rise-Vision/rise-image.git",
+    "@webcomponents/webcomponentsjs": "^2.1.1"
+  },
+  "width": "1920",
+  "height": "1080"
+}
