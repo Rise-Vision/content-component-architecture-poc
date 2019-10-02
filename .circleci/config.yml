@@ -77,6 +77,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
+      - run: ./skip-if-no-master-template-changes.sh
       - restore_cache:
           key: node-root-cache-{{ checksum "package.json" }}
       - run: |
@@ -192,11 +193,11 @@ workflows:
           filters:
             branches:
               only:
+                - master
                 - /^.*[/](stage|staging)[/].*/
                 - /^.*[/](build-beta)[/].*/
                 - /^.*[/](build-stable)[/].*/
               ignore:
-                - master
                 - /^(feature|fix|chore)[/].*/
                 - global-icons/build-stable
       - gcloud-setup:
