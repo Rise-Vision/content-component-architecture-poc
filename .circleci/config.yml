@@ -165,9 +165,9 @@ jobs:
       - run: |
           TARGET=$TEMPLATES_BASE/<< parameters.stage >>/templates/global-icons
           echo Deploying global icons to << parameters.stage >>
-          gsutil -m rsync -d -r global-icons $TARGET
-          gsutil -m setmeta -r -h "Cache-Control:private, max-age=0" $TARGET
-          gsutil -m acl -r ch -u AllUsers:R $TARGET
+          #gsutil -m rsync -d -r global-icons $TARGET
+          #gsutil -m setmeta -r -h "Cache-Control:private, max-age=0" $TARGET
+          #gsutil -m acl -r ch -u AllUsers:R $TARGET
 
 
 workflows:
@@ -285,7 +285,7 @@ workflows:
           stage: all
           name: deploy-all
           requires:
-            - gcloud-setup
+            - deploy-icons-beta
             - generate-product-code
             - template-blueprint
           filters: *MASTER_BRANCH
