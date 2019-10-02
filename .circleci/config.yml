@@ -282,7 +282,7 @@ workflows:
               ignore:
                 - /^(feature|fix|chore)[/].*/
       - deploy-template:
-          stage: all
+          stage: staging,beta,stable
           name: deploy-all
           requires:
             - deploy-icons-beta
